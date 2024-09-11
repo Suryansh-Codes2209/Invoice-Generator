@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 import './App.css';
 
 function App() {
   const [showInvoice, setShowInvoice] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [formData, setFormData] = useState({
     sellerName: '',
     sellerAddress: '',
@@ -36,6 +39,8 @@ function App() {
         discount: 0,
       },
     ],
+    companyLogo: null,
+    authorizedSignatory: null,
   });
 
   const handleInputChange = (e) => {
@@ -45,6 +50,11 @@ function App() {
       [name]: value,
     });
   };
+
+  const handleGenerateClick = () => {
+    setShowForm(true);
+  };
+
 
   const handleItemChange = (index, e) => {
     const { name, value } = e.target;
@@ -72,20 +82,79 @@ function App() {
     });
   };
 
+  const handleLogoChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({
+      ...formData,
+      companyLogo: URL.createObjectURL(file),
+    });
+  };
+
+  const handleSignatoryChange = (e) => {
+    const file = e.target.files[0];
+    setFormData({
+      ...formData,
+      authorizedSignatory: URL.createObjectURL(file),
+    });
+  };
+
   const handleGenerateInvoice = () => {
     setShowInvoice(true);
   };
 
+  const downloadPdf = () => {
+    const invoiceElement = document.getElementById('invoice');
+    
+    
+    const imgElement = document.querySelector('img');
+  
+    if (invoiceElement && imgElement) {
+      
+      const img = new Image();
+      img.src = imgElement.src;
+  
+      img.onload = () => {
+        
+        html2canvas(invoiceElement)
+          .then((canvas) => {
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+            pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+            pdf.save('invoice.pdf');
+          })
+          .catch((error) => {
+            console.error("Error generating PDF:", error);
+          });
+      };
+  
+      img.onerror = (error) => {
+        console.error("Error loading image:", error);
+      };
+    } else {
+      console.error('Invoice element or image element not found');
+    }
+  };
+  
+
   if (showInvoice) {
     return (
       <div className="bg-black min-h-screen flex flex-col items-center pt-14">
-        <div className="max-w-4xl mx-auto border border-gray-300 p-6 bg-white ">
+        <div id="invoice" className="max-w-4xl mx-auto border border-gray-300 p-6 bg-white ">
         <div className="text-center mb-6">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
-          alt="Amazon Logo"
-          className="h-12 mx-auto"
-        />
+        {formData.companyLogo ? (
+              <img
+                src={formData.companyLogo}
+                alt="Company Logo"
+                className="h-12 mx-auto"
+              />
+            ) : (
+              <div className="h-12 mx-auto bg-gray-200 flex items-center justify-center">
+                <span className="text-gray-500">Company Logo</span>
+              </div>
+            )}
+            
         <div>
         <h2 className="text-lg font-bold">Tax Invoice/Bill of Supply/Cash Memo</h2>
         <p>(Original for Recipient)</p>
@@ -170,6 +239,17 @@ function App() {
           <div className="flex justify-between mt-6">
         <div>
           <p>For {formData.sellerName}:</p>
+          {formData.authorizedSignatory ? (
+                <img
+                  src={formData.authorizedSignatory}
+                  alt="Authorized Signatory"
+                  className="h-12"
+                />
+              ) : (
+                <div className="h-12 bg-gray-200 flex items-center justify-center">
+                  <span className="text-gray-500">Authorized Signatory</span>
+                </div>
+              )}
           <p>Authorized Signatory</p>
         </div>
         <div>
@@ -179,6 +259,12 @@ function App() {
         </div>
         </div>
         </div>
+        <button
+          onClick={downloadPdf}
+          className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+        >
+          Download PDF
+        </button>
       </div>
     );
   }
@@ -196,15 +282,23 @@ function App() {
         <div className='mt-9'>
           <button className="relative inline-flex h-12 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
             <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#87CEEB_0%,#00BFFF_50%,#87CEEB_100%)]" />
-            <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
-              Generate ✨
-            </span>
+            <span
+        className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl"
+        onClick={handleGenerateClick}
+      >
+        Generate ✨
+      </span>
           </button>
         </div>
 
         {/* Form for Invoice Details */}
-        <form className="max-w-4xl mx-auto p-6 bg-white m-5 space-y-4">
+        {showForm && (
+          <div className='bg-black min-h-screen flex flex-col items-center pt-14'>
+        <form className="w-full max-w-6xl mx-auto p-6 bg-white m-5 space-y-4 ">
           {/* Seller Details */}
+          <h2 className="font-bold text-lg">Company Logo</h2>
+          <input type="file" accept="image/*" onChange={handleLogoChange} className="block w-full px-4 py-2 mb-2 border" />
+
           <h2 className="font-bold text-lg">Order Details</h2>
           <input name="orderNo" placeholder="Order Number" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="orderDate" placeholder="Order Date" type="date" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
@@ -252,10 +346,17 @@ function App() {
               <input name="discount" placeholder="Discount" type="number" onChange={(e) => handleItemChange(index, e)} className="block w-full px-4 py-2 mb-2 border" />
             </div>
           ))}
-          <button type="button" onClick={handleAddItem} className="bg-sky-500 text-white px-4 py-2 rounded">Add Item</button>
 
+          
+
+          <button type="button" onClick={handleAddItem} className="bg-sky-500 text-white px-4 py-2 rounded">Add Item</button>
+          <h2 className="font-bold text-lg">Authorized Signatory</h2>
+          <input type="file" accept="image/*" onChange={handleSignatoryChange} className="block w-full px-4 py-2 mb-2 border" />
           <button type="button" onClick={handleGenerateInvoice} className="bg-green-500 text-white px-4 py-2 rounded">Generate Invoice</button>
         </form>
+      </div>
+        
+      )}
       </div>
     </div>
   );
