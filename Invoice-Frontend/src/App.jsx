@@ -169,7 +169,7 @@ function App() {
 
           <div className="flex justify-between mt-6">
         <div>
-          <p>For Varasiddhi Silk Exports:</p>
+          <p>For {formData.sellerName}:</p>
           <p>Authorized Signatory</p>
         </div>
         <div>
@@ -216,6 +216,8 @@ function App() {
           <input name="sellerCity" placeholder="Seller City" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="sellerState" placeholder="Seller State" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="sellerPincode" placeholder="Seller Pincode" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="sellerPan" placeholder="Seller PAN" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="sellerGst" placeholder="Seller GST" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           {/* Add more fields as needed for Seller Details */}
 
           {/* Billing and Shipping Details */}
@@ -225,6 +227,7 @@ function App() {
           <input name="billingCity" placeholder="Billing City" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="billingState" placeholder="Billing State" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="billingPincode" placeholder="Billing Pincode" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="billingStateCode" placeholder="Billing State Code" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           {/* Add more fields for Billing and Shipping */}
 
           <h2 className="font-bold text-lg">Shipping Details</h2>
@@ -233,6 +236,7 @@ function App() {
           <input name="shippingCity" placeholder="Shipping City" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="shippingState" placeholder="Shipping State" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="shippingPincode" placeholder="Shipping Pincode" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="shippingStateCode" placeholder="Shipping State Code" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           
           <h2 className="font-bold text-lg">Invoice Details</h2>
           <input name="invoiceNo" placeholder="Invoice Number" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
