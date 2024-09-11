@@ -174,8 +174,8 @@ function App() {
         </div>
         <div>
           <p>Invoice Details:</p>
-          <p>KA-310565025-1920</p>
-          <p>Invoice Date: 28.10.2019</p>
+          <p>{formData.invoiceNo}</p>
+          <p>{formData.invoiceDate}</p>
         </div>
         </div>
         </div>
@@ -205,6 +205,11 @@ function App() {
         {/* Form for Invoice Details */}
         <form className="max-w-4xl mx-auto p-6 bg-white m-5 space-y-4">
           {/* Seller Details */}
+          <h2 className="font-bold text-lg">Order Details</h2>
+          <input name="orderNo" placeholder="Order Number" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="orderDate" placeholder="Order Date" type="date" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+
+
           <h2 className="font-bold text-lg">Seller Details</h2>
           <input name="sellerName" placeholder="Seller Name" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="sellerAddress" placeholder="Seller Address" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
@@ -217,7 +222,21 @@ function App() {
           <h2 className="font-bold text-lg">Billing Details</h2>
           <input name="billingName" placeholder="Billing Name" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           <input name="billingAddress" placeholder="Billing Address" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="billingCity" placeholder="Billing City" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="billingState" placeholder="Billing State" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="billingPincode" placeholder="Billing Pincode" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           {/* Add more fields for Billing and Shipping */}
+
+          <h2 className="font-bold text-lg">Shipping Details</h2>
+          <input name="shippingName" placeholder="Shipping Name" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="shippingAddress" placeholder="Shipping Address" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="shippingCity" placeholder="Shipping City" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="shippingState" placeholder="Shipping State" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="shippingPincode" placeholder="Shipping Pincode" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          
+          <h2 className="font-bold text-lg">Invoice Details</h2>
+          <input name="invoiceNo" placeholder="Invoice Number" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
+          <input name="invoiceDate" placeholder="Invoice Date" type="date" onChange={handleInputChange} className="block w-full px-4 py-2 mb-2 border" />
           
           {/* Items Section */}
           <h2 className="font-bold text-lg">Items</h2>
