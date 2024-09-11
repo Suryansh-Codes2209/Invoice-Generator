@@ -79,7 +79,18 @@ function App() {
   if (showInvoice) {
     return (
       <div className="bg-black min-h-screen flex flex-col items-center pt-14">
-        <div className="max-w-4xl mx-auto border border-gray-300 p-6 bg-white m-5">
+        <div className="max-w-4xl mx-auto border border-gray-300 p-6 bg-white ">
+        <div className="text-center mb-6">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg"
+          alt="Amazon Logo"
+          className="h-12 mx-auto"
+        />
+        <div>
+        <h2 className="text-lg font-bold">Tax Invoice/Bill of Supply/Cash Memo</h2>
+        <p>(Original for Recipient)</p>
+        </div>
+      </div>
           {/* Seller, Billing, Shipping, Order Details */}
           <div className="grid grid-cols-2 gap-4 mb-4">
             <div>
@@ -155,6 +166,18 @@ function App() {
               return acc + netAmount + taxAmount;
             }, 0).toFixed(2)}
           </p>
+
+          <div className="flex justify-between mt-6">
+        <div>
+          <p>For Varasiddhi Silk Exports:</p>
+          <p>Authorized Signatory</p>
+        </div>
+        <div>
+          <p>Invoice Details:</p>
+          <p>KA-310565025-1920</p>
+          <p>Invoice Date: 28.10.2019</p>
+        </div>
+        </div>
         </div>
       </div>
     );
